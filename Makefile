@@ -1,6 +1,8 @@
 # Makefile for building exercises (executables)
 
-CC := gcc
+CC := clang
+CFLAGS := -Wall -Wextra -g -fsanitize=address
+ASAN_OPTIONS := detect_leaks=1
 # List of chapters
 CHAPTERS := $(wildcard chapter*)
 
@@ -16,7 +18,7 @@ $(OUTPUT_DIR):
 
 # Rule to build each chapter's executable
 $(OUTPUT_DIR)/%_exercises: %/exercises.c | $(OUTPUT_DIR)
-	$(CC) -o $@ $<
+	$(CC) $(CFLAGS)  -o $@ $< ;$(ASAN_OPTIONS)
 
 # Clean rule to remove all executables
 clean:
